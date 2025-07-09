@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:bjy/components/bjy_border_drag_move_view.dart';
+import 'package:bjy/modules/launcher/query_box_view.dart';
 
 void main() {
   runApp(const MyApp());
@@ -52,9 +53,27 @@ class _MyHomePageState extends State<MyHomePage> {
 
         // launcherController.focusQueryBox();
       },
-      child: Scaffold(backgroundColor: Colors.white),
+      child: const Column(
+        children: [
+          Expanded(
+            child: Padding(
+              padding: EdgeInsets.only(),
+              child: Column(
+                children: [
+                  BjyQueryBoxView(),
+                  // Expanded(child: WoxQueryResultView()),
+                ],
+              ),
+            ),
+          ),
+        ],
+      ),
       //     ? const WoxSettingView()
       //     : const WoxLauncherView(),
     );
   }
 }
+
+
+// stack, column, expanded, padding, column, BjyQueryBoxView
+// BjyQueryBoxView: Stack, Positioned, Focus, SizedBox, ExtendedTextField
