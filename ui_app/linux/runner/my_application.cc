@@ -227,7 +227,7 @@ static void my_application_activate(GApplication *application) {
   }
 
   // 设置无边框窗口
-  gtk_window_set_decorated(window, FALSE);
+//   gtk_window_set_decorated(window, FALSE);
   gtk_window_set_default_size(window, 480, 100);
   gtk_widget_show(GTK_WIDGET(window));
 
