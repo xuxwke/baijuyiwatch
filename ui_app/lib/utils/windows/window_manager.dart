@@ -47,6 +47,7 @@ class WindowManager implements WindowManagerInterface {
 
   @override
   Future<void> show() {
+    debugPrint("_platformImpl.show");
     return _platformImpl.show();
   }
 

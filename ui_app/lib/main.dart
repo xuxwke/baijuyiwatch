@@ -1,15 +1,21 @@
 import 'package:flutter/material.dart';
+
+import 'package:get/get.dart';
+
+import 'package:bjy/controllers/query_box_controller.dart';
 import 'package:bjy/components/bjy_border_drag_move_view.dart';
 import 'package:bjy/modules/launcher/query_box_view.dart';
 
-void main() {
+void main() async {
+  // 套路: GetView Obx 中使用 controller 需要先注册
+  Get.put(QueryBoxController());
   runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
-  // This widget is the root of your application.
+  // build 方法是响应式的, 内容变了会自动重新画
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -33,15 +39,6 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-
-  void _incrementCounter() {
-    setState(() {
-      // 套路写法，每次点击按钮，触发 _incrementCounter，_counter 的值加 1
-      _counter++;
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     return WoxBorderDragMoveArea(
@@ -73,7 +70,3 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 }
-
-
-// stack, column, expanded, padding, column, BjyQueryBoxView
-// BjyQueryBoxView: Stack, Positioned, Focus, SizedBox, ExtendedTextField
