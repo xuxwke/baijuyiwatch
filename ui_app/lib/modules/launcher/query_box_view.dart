@@ -47,7 +47,7 @@ class BjyQueryBoxView extends GetView<QueryBoxController> {
               child: Stack(
                 children: [
                   SizedBox(
-                    height: 55.0,
+                    height: controller.sizeBoxHeight.value,
                     child: Theme(
                       data: ThemeData(
                         textSelectionTheme: TextSelectionThemeData(),

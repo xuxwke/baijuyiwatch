@@ -7,6 +7,8 @@ import 'package:get/get.dart';
 import 'package:stop_watch_timer/stop_watch_timer.dart';
 import 'package:hotkey_manager/hotkey_manager.dart';
 
+import 'package:bjy/models/timer_record.dart';
+
 class QueryBoxController extends GetxController {
   // final 的原因是 obs 对象不可变，但是对象里面的属性值可以变
   final count = 0.obs;
@@ -15,10 +17,17 @@ class QueryBoxController extends GetxController {
   final queryBoxTextFieldController = TextEditingController();
   final queryBoxFocusNode = FocusNode();
 
+  final double _width = 480;
+  final sizeBoxHeight = 55.0.obs;
+
   // 计时器
   // _ 下划线开头意味着 private
   final _stopWatchTimer = StopWatchTimer(mode: StopWatchMode.countUp);
   final isTimerRunning = false.obs;
+
+  // 历史的记录
+  final _timeRecordList = [];
+  var _curTimeRecord = TimerRecord.empty();
 
   @override
   void onInit() async {
@@ -33,10 +42,13 @@ class QueryBoxController extends GetxController {
       secondTime.value = value;
     });
 
+    // 设置初始窗口大小
+    resizeWindow();
+
     // 热键
     // 全局热键的套路代码
     WidgetsFlutterBinding.ensureInitialized();
-    // ⌥ + Q
+    // ctrl+[
     HotKey hotKey = HotKey(
       key: PhysicalKeyboardKey.bracketLeft,
       modifiers: [HotKeyModifier.control],
@@ -75,9 +87,27 @@ class QueryBoxController extends GetxController {
     // 开始计时
     _stopWatchTimer.onStartTimer();
     isTimerRunning.value = true;
+
+    // 记录一个 model
+    _curTimeRecord = TimerRecord(
+      name: queryBoxTextFieldController.text,
+      seconds: 0,
+      startTime: DateTime.now().millisecondsSinceEpoch ~/ 1000,
+      endTime: 0,
+    );
   }
 
   stopTimer() {
+    // 保存记录
+    _curTimeRecord.endTime = DateTime.now().millisecondsSinceEpoch ~/ 1000;
+    _curTimeRecord.seconds = secondTime.value;
+    _timeRecordList.add(_curTimeRecord);
+    _curTimeRecord = TimerRecord.empty();
+    debugPrint(
+      'timeRecordList: ${_timeRecordList.map((ele) => ele.toString())}',
+    );
+
+    // 停止计时器
     _stopWatchTimer.onStopTimer();
     _stopWatchTimer.clearPresetTime();
     isTimerRunning.value = false;
@@ -97,5 +127,10 @@ class QueryBoxController extends GetxController {
 
   showWindow() {
     windowManager.show();
+  }
+
+  resizeWindow() {
+    debugPrint("resizeWindow");
+    windowManager.setSize(Size(_width, sizeBoxHeight.value));
   }
 }
