@@ -18,7 +18,8 @@ class QueryBoxController extends GetxController {
   final queryBoxFocusNode = FocusNode();
 
   final double _width = 480;
-  final sizeBoxHeight = 55.0.obs;
+  final inputSizeBoxHeight = 55.0.obs;
+  final timeRecordSizeBoxHeight = 40.0.obs;
 
   // 计时器
   // _ 下划线开头意味着 private
@@ -26,7 +27,7 @@ class QueryBoxController extends GetxController {
   final isTimerRunning = false.obs;
 
   // 历史的记录
-  final _timeRecordList = [];
+  final timeRecordList = [].obs;
   var _curTimeRecord = TimerRecord.empty();
 
   @override
@@ -101,16 +102,19 @@ class QueryBoxController extends GetxController {
     // 保存记录
     _curTimeRecord.endTime = DateTime.now().millisecondsSinceEpoch ~/ 1000;
     _curTimeRecord.seconds = secondTime.value;
-    _timeRecordList.add(_curTimeRecord);
+    timeRecordList.add(_curTimeRecord);
     _curTimeRecord = TimerRecord.empty();
     debugPrint(
-      'timeRecordList: ${_timeRecordList.map((ele) => ele.toString())}',
+      'timeRecordList: ${timeRecordList.map((ele) => ele.toString())}',
     );
 
     // 停止计时器
     _stopWatchTimer.onStopTimer();
-    _stopWatchTimer.clearPresetTime();
+    _stopWatchTimer.onResetTimer();
     isTimerRunning.value = false;
+
+    // 更新窗口大小
+    resizeWindow();
   }
 
   flopTimer() {
@@ -131,6 +135,8 @@ class QueryBoxController extends GetxController {
 
   resizeWindow() {
     debugPrint("resizeWindow");
-    windowManager.setSize(Size(_width, sizeBoxHeight.value));
+    double h = inputSizeBoxHeight.value;
+    h += timeRecordList.length * timeRecordSizeBoxHeight.toDouble();
+    windowManager.setSize(Size(_width, h));
   }
 }
