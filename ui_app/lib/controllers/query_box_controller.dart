@@ -21,6 +21,9 @@ class QueryBoxController extends GetxController {
   final inputSizeBoxHeight = 55.0.obs;
   final timeRecordSizeBoxHeight = 40.0.obs;
 
+  // historyList
+  final historyListIdx = (-1).obs;
+
   // 计时器
   // _ 下划线开头意味着 private
   final _stopWatchTimer = StopWatchTimer(mode: StopWatchMode.countUp);
@@ -42,9 +45,6 @@ class QueryBoxController extends GetxController {
     _stopWatchTimer.secondTime.listen((value) {
       secondTime.value = value;
     });
-
-    // 设置初始窗口大小
-    resizeWindow();
 
     // 热键
     // 全局热键的套路代码
@@ -74,6 +74,22 @@ class QueryBoxController extends GetxController {
       },
     );
     // await hotKeyManager.unregisterAll();
+
+    // debug
+    timeRecordList.add(
+      TimerRecord(name: "a", seconds: 1, startTime: 111, endTime: 222),
+    );
+    timeRecordList.add(
+      TimerRecord(name: "b", seconds: 2, startTime: 111, endTime: 222),
+    );
+    timeRecordList.add(
+      TimerRecord(name: "c", seconds: 3, startTime: 111, endTime: 222),
+    );
+
+    historyListIdx.value = 1;
+
+    // 设置初始窗口大小
+    resizeWindow();
   }
 
   @override
@@ -138,5 +154,11 @@ class QueryBoxController extends GetxController {
     double h = inputSizeBoxHeight.value;
     h += timeRecordList.length * timeRecordSizeBoxHeight.toDouble();
     windowManager.setSize(Size(_width, h));
+  }
+
+  historySelectMove(int step) {
+    historyListIdx.value += step;
+    debugPrint("historySelectMove $step, $historyListIdx.value");
+    update();
   }
 }

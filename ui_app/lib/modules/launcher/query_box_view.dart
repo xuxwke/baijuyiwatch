@@ -22,9 +22,7 @@ class BjyQueryBoxView extends GetView<QueryBoxController> {
           Focus(
             // 键盘事件会传到这里 除非 FocusNode.hasFocus == false
             onKeyEvent: (FocusNode node, KeyEvent event) {
-              // debugPrint(
-              //   'key event: ${event.logicalKey} ${event.toString()}',
-              // );
+              //   developer.log('onKeyEvent', name: event.toString());
 
               if (event.logicalKey == LogicalKeyboardKey.enter) {
                 if (event is KeyRepeatEvent || event is KeyDownEvent) {
@@ -37,7 +35,16 @@ class BjyQueryBoxView extends GetView<QueryBoxController> {
               }
 
               if (event is! KeyDownEvent) {
+                developer.log('onKeyEvent not down');
                 return KeyEventResult.ignored;
+              }
+
+              if (event.logicalKey == LogicalKeyboardKey.arrowUp) {
+                controller.historySelectMove(-1);
+                return KeyEventResult.handled;
+              } else if (event.logicalKey == LogicalKeyboardKey.arrowDown) {
+                controller.historySelectMove(1);
+                return KeyEventResult.handled;
               }
 
               // developer.log('onKeyEvent node', name: node.toStringDeep());
@@ -48,32 +55,44 @@ class BjyQueryBoxView extends GetView<QueryBoxController> {
                 // 历史记录
                 // if (controller.timeRecordList.isNotEmpty)
                 ConstrainedBox(
+                  key: ValueKey('container-${controller.historyListIdx.value}'),
                   constraints: BoxConstraints(maxHeight: 300, minHeight: 0),
-                  child: ListView.builder(
-                    // shrink 控制 ListView 不会无脑填充外层的 box
-                    shrinkWrap: true,
-                    itemCount: controller.timeRecordList.length,
-                    itemBuilder: (context, index) {
-                      var item = controller.timeRecordList[index];
-                      return SizedBox(
-                        height: controller.timeRecordSizeBoxHeight.value,
-                        child: Container(
-                          decoration: BoxDecoration(color: Colors.greenAccent),
-                          child: Row(
-                            children: [
-                              Text(
-                                '任务:${item.name}, 耗时:${item.seconds}s',
-                                style: TextStyle(
-                                  fontSize: 12,
-                                  color: Colors.black,
-                                  decoration: TextDecoration.none,
-                                ),
-                              ),
-                            ],
+                  child: Obx(
+                    () => ListView.builder(
+                      // shrink 控制 ListView 不会无脑填充外层的 box
+                      shrinkWrap: true,
+                      itemCount: controller.timeRecordList.length,
+                      itemBuilder: (context, index) {
+                        print(
+                          'index: $index, historyListIdx: ${controller.historyListIdx.value}',
+                        );
+                        var item = controller.timeRecordList[index];
+                        var color = index == controller.historyListIdx.value
+                            ? Colors.greenAccent
+                            : Colors.amberAccent;
+                        return SizedBox(
+                          key: ValueKey(
+                            'item-$index-${controller.historyListIdx.value}',
                           ),
-                        ),
-                      );
-                    },
+                          height: controller.timeRecordSizeBoxHeight.value,
+                          child: Container(
+                            decoration: BoxDecoration(color: color),
+                            child: Row(
+                              children: [
+                                Text(
+                                  '任务:${item.name}, 耗时:${item.seconds}s',
+                                  style: TextStyle(
+                                    fontSize: 12,
+                                    color: Colors.black,
+                                    decoration: TextDecoration.none,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        );
+                      },
+                    ),
                   ),
                 ),
                 // 输入框
