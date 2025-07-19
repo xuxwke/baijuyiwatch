@@ -31,7 +31,7 @@ class WoxBorderDragMoveArea extends StatelessWidget {
           height: borderWidth,
           child: WoxDragMoveArea(
             onDragEnd: onDragEnd,
-            child: Container(color: const Color.fromARGB(39, 46, 196, 222)),
+            child: Container(color: const Color.fromARGB(0, 46, 196, 222)),
           ),
         ),
 
@@ -43,7 +43,7 @@ class WoxBorderDragMoveArea extends StatelessWidget {
           height: borderWidth,
           child: WoxDragMoveArea(
             onDragEnd: onDragEnd,
-            child: Container(color: const Color.fromARGB(39, 46, 196, 222)),
+            child: Container(color: const Color.fromARGB(0, 46, 196, 222)),
           ),
         ),
 
@@ -55,7 +55,7 @@ class WoxBorderDragMoveArea extends StatelessWidget {
           width: borderWidth,
           child: WoxDragMoveArea(
             onDragEnd: onDragEnd,
-            child: Container(color: const Color.fromARGB(39, 46, 196, 222)),
+            child: Container(color: const Color.fromARGB(0, 46, 196, 222)),
           ),
         ),
 
@@ -67,7 +67,7 @@ class WoxBorderDragMoveArea extends StatelessWidget {
           width: borderWidth,
           child: WoxDragMoveArea(
             onDragEnd: onDragEnd,
-            child: Container(color: const Color.fromARGB(39, 46, 196, 222)),
+            child: Container(color: const Color.fromARGB(0, 46, 196, 222)),
           ),
         ),
       ],

@@ -6,6 +6,7 @@ import 'package:get/get.dart';
 import 'dart:developer' as developer;
 
 import 'package:bjy/controllers/input_box_controller.dart';
+import 'package:bjy/utils/theme.dart';
 
 class BjyHistoryView extends GetView<InputBoxController> {
   const BjyHistoryView({super.key});
@@ -31,8 +32,8 @@ class BjyHistoryView extends GetView<InputBoxController> {
                       itemBuilder: (context, index) {
                         var item = controller.timeRecordList[index];
                         var color = index == controller.historyListIdx.value
-                            ? Colors.greenAccent
-                            : Colors.amberAccent;
+                            ? defaultTheme.historyItemBgColorActive
+                            : defaultTheme.historyItemBgColor;
                         return SizedBox(
                           key: ValueKey(
                             'item-$index-${controller.historyListIdx.value}',
@@ -43,10 +44,19 @@ class BjyHistoryView extends GetView<InputBoxController> {
                             child: Row(
                               children: [
                                 Text(
-                                  '任务:${item.name}, 耗时:${item.seconds}s',
+                                  '  ${item.name}',
                                   style: TextStyle(
                                     fontSize: 12,
-                                    color: Colors.black,
+                                    color: defaultTheme.historyItemTextColor,
+                                    decoration: TextDecoration.none,
+                                  ),
+                                ),
+                                Spacer(), // 关键：自动撑开剩余空间
+                                Text(
+                                  '耗时 ${formatDuration(item.seconds)}    ',
+                                  style: TextStyle(
+                                    fontSize: 12,
+                                    color: defaultTheme.historyItemTextColor,
                                     decoration: TextDecoration.none,
                                   ),
                                 ),

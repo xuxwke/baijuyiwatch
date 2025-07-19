@@ -79,13 +79,13 @@ class InputBoxController extends GetxController {
 
     // debug
     timeRecordList.add(
-      TimerRecord(name: "a", seconds: 1, startTime: 111, endTime: 222),
+      TimerRecord(name: "吃水果", seconds: 1, startTime: 111, endTime: 222),
     );
     timeRecordList.add(
-      TimerRecord(name: "b", seconds: 2, startTime: 111, endTime: 222),
+      TimerRecord(name: "看视频", seconds: 22, startTime: 111, endTime: 222),
     );
     timeRecordList.add(
-      TimerRecord(name: "c", seconds: 3, startTime: 111, endTime: 222),
+      TimerRecord(name: "收拾桌面", seconds: 90, startTime: 111, endTime: 222),
     );
 
     historyListIdx.value = timeRecordList.length;

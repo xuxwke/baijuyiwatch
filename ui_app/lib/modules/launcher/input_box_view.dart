@@ -1,3 +1,4 @@
+import 'package:bjy/utils/theme.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -75,7 +76,10 @@ class BjyInputBoxView extends GetView<InputBoxController> {
                         // child: Container(),
                         child: Material(
                           child: ExtendedTextField(
-                            style: TextStyle(fontSize: 28.0),
+                            style: TextStyle(
+                              fontSize: 28.0,
+                              color: defaultTheme.inputBoxTextColor,
+                            ),
                             decoration: InputDecoration(
                               contentPadding: const EdgeInsets.only(
                                 left: 8,
@@ -87,6 +91,7 @@ class BjyInputBoxView extends GetView<InputBoxController> {
                                 borderSide: BorderSide.none,
                               ),
                               filled: true,
+                              fillColor: defaultTheme.inputBoxBgColor,
                               hoverColor: Colors.transparent,
                             ),
                             // 需要从 controller 获取 focusNode, 否则会有 backspace 无效问题
@@ -107,13 +112,23 @@ class BjyInputBoxView extends GetView<InputBoxController> {
                                 onPressed: () {
                                   controller.flopTimer();
                                 },
-                                child: Text('停止'),
+                                child: Text(
+                                  '停止',
+                                  style: TextStyle(
+                                    color: defaultTheme.inputBoxButtonTextColor,
+                                  ),
+                                ),
                               )
                             : TextButton(
                                 onPressed: () {
                                   controller.flopTimer();
                                 },
-                                child: Text('开始'),
+                                child: Text(
+                                  '开始',
+                                  style: TextStyle(
+                                    color: defaultTheme.inputBoxButtonTextColor,
+                                  ),
+                                ),
                               ),
                       ),
                     if (controller.isTimerRunning.value)
