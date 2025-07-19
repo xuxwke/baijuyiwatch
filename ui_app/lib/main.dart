@@ -1,14 +1,15 @@
+import 'package:bjy/modules/launcher/history_view.dart';
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
 
-import 'package:bjy/controllers/query_box_controller.dart';
+import 'package:bjy/controllers/input_box_controller.dart';
 import 'package:bjy/components/bjy_border_drag_move_view.dart';
-import 'package:bjy/modules/launcher/query_box_view.dart';
+import 'package:bjy/modules/launcher/input_box_view.dart';
 
 void main() async {
   // 套路: GetView Obx 中使用 controller 需要先注册
-  Get.put(QueryBoxController());
+  Get.put(InputBoxController());
   runApp(const MyApp());
 }
 
@@ -57,7 +58,8 @@ class _MyHomePageState extends State<MyHomePage> {
               padding: EdgeInsets.only(),
               child: Column(
                 children: [
-                  BjyQueryBoxView(),
+                  BjyHistoryView(),
+                  BjyInputBoxView(),
                   // Expanded(child: WoxQueryResultView()),
                 ],
               ),
