@@ -18,6 +18,7 @@ class InputBoxController extends GetxController {
   final inputBoxNotEmpty = false.obs; // 添加 observable 变量
   final inputBoxTextFieldController = TextEditingController();
   final inputBoxFocusNode = FocusNode();
+  int _lastTextLength = 0;
 
   final double _width = 480;
   final inputSizeBoxHeight = 55.0.obs;
@@ -41,6 +42,9 @@ class InputBoxController extends GetxController {
     // 监听文本变化
     inputBoxTextFieldController.addListener(() {
       inputBoxNotEmpty.value = inputBoxTextFieldController.text.isNotEmpty;
+
+      // 记录最新的长度
+      _lastTextLength = inputBoxTextFieldController.text.length;
     });
 
     // 定时器的回调
@@ -63,13 +67,11 @@ class InputBoxController extends GetxController {
         debugPrint('热键: ${hotKey.toJson()}');
         await windowManager.show();
         // 对于 linux 平台, show 是不够的,
-        await windowManager.center(400, 400);
+        // await windowManager.center(400, 400);
         await windowManager.focus();
         // 输入框申请 focus
         // 使用回调的原因是 窗口刚刚出现 request 不一定能被窗口服务器正确处理
-        WidgetsBinding.instance.addPostFrameCallback((_) {
-          inputBoxFocusNode.requestFocus();
-        });
+
         resizeWindow();
       },
     );
@@ -86,8 +88,9 @@ class InputBoxController extends GetxController {
       TimerRecord(name: "c", seconds: 3, startTime: 111, endTime: 222),
     );
 
-    historyListIdx.value = -1;
+    historyListIdx.value = timeRecordList.length;
     WidgetsBinding.instance.addPostFrameCallback((_) {
+      debugPrint("请求焦点");
       inputBoxFocusNode.requestFocus();
     });
 
@@ -144,6 +147,8 @@ class InputBoxController extends GetxController {
 
     // 清空 input
     inputBoxTextFieldController.clear();
+
+    historyResetMove();
   }
 
   flopTimer() {
@@ -174,47 +179,24 @@ class InputBoxController extends GetxController {
     windowManager.setSize(Size(_width, h));
   }
 
+  historyResetMove() {
+    historyListIdx.value = timeRecordList.length;
+  }
+
   historySelectMove(int step) {
-    // 如果输入框在编辑状态
-    if (inputBoxFocusNode.hasFocus) {
-      debugPrint('historySelectMove 输入框聚焦中');
-      if (step > 0) {
-        // 向下移动无效
-        return;
-      } else if (step < 0) {
-        // 向上移动丢失聚焦; 选中最后一条历史记录
-        inputBoxFocusNode.unfocus();
-        historyListIdx.value = timeRecordList.length - 1;
-        return;
-      }
-    }
-
-    if ((historyListIdx.value == (timeRecordList.length - 1)) && (step > 0)) {
-      debugPrint("列表底部再往下选择 是输入框");
-      // 列表底部再往下选择 是输入框
-      historyListIdx.value = -1;
-      inputBoxFocusNode.requestFocus();
-
+    if ((historyListIdx.value >= (timeRecordList.length - 1)) && (step > 0)) {
+      debugPrint("列表已到底部");
+      historyResetMove();
       return;
     }
     if ((historyListIdx.value <= 0) && (step < 0)) {
+      debugPrint("列表已到顶部");
       return;
     }
 
     historyListIdx.value += step;
-  }
-
-  reuseHistoryTimer() {
-    if ((historyListIdx.value < 0) ||
-        (historyListIdx.value >= timeRecordList.length)) {
-      return;
-    }
-
     String name = timeRecordList[historyListIdx.value].name;
-    _startTimer(name);
     // 输入框填充
     inputBoxTextFieldController.text = name;
-    // 更新窗口大小
-    resizeWindow();
   }
 }

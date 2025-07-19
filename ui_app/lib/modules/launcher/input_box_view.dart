@@ -23,29 +23,32 @@ class BjyInputBoxView extends GetView<InputBoxController> {
             // 键盘事件会传到这里 除非 FocusNode.hasFocus == false
             onKeyEvent: (FocusNode node, KeyEvent event) {
               developer.log('onKeyEvent ${event.toString()}');
-              if (event.logicalKey == LogicalKeyboardKey.enter) {
-                if (event is KeyRepeatEvent || event is KeyDownEvent) {
-                  debugPrint("enter 事件");
 
-                  // 计时中 或者 输入框编辑中
-                  if ((controller.isTimerRunning.value ||
-                      controller.inputBoxFocusNode.hasFocus)) {
-                    controller.flopTimer();
-                    // 如果开始计时，窗口隐藏
-                    if (controller.isTimerRunning.value) {
-                      controller.hideWindow();
-                    }
+              if (event.logicalKey == LogicalKeyboardKey.escape &&
+                  event is KeyUpEvent) {
+                controller.hideWindow();
+                return KeyEventResult.handled;
+              }
+
+              if (event.logicalKey == LogicalKeyboardKey.enter) {
+                if (event is KeyRepeatEvent || event is KeyUpEvent) {
+                  debugPrint("enter 事件");
+                  if (controller.inputBoxTextFieldController.text.isEmpty) {
                     return KeyEventResult.handled;
                   }
 
-                  // 列表选择中
-                  // 尝试用选中的历史记录继续计时
-                  controller.reuseHistoryTimer();
+                  // 计时中 或者 输入框编辑中
+                  controller.flopTimer();
+                  // 如果开始计时，窗口隐藏
+                  if (controller.isTimerRunning.value) {
+                    controller.hideWindow();
+                  }
                   return KeyEventResult.handled;
                 }
+                return KeyEventResult.handled;
               }
 
-              if (event is KeyUpEvent) {
+              if (event is KeyDownEvent) {
                 if (event.logicalKey == LogicalKeyboardKey.arrowUp) {
                   controller.historySelectMove(-1);
                   return KeyEventResult.handled;
