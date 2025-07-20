@@ -1,20 +1,23 @@
-计时器 
+### 介绍
+桌面计时器 
 * 跨平台 
 * 快捷键呼出 
 * 一键开始和停止
 * 不依赖鼠标
 
-stopwatch 
+desktop-app stopwatch 
 * cross-platform
 * hotkey show and hide
 * one key to start or stop
 * mouse independent
 
+### 使用
 快捷键 hot key  
-ctrl+[: show up  
-escape: hide  
-enter: start or strop  
+`ctrl+[`: show up  
+`escape`: hide  
+`enter`: start or strop  
 
+### 截图
 <img width="623" height="307" alt="f5a638488be520cd7e6be08427ea97af" src="https://github.com/user-attachments/assets/41eba10c-5858-4f85-8ffb-4d965d09e06d" />
 <img width="641" height="350" alt="5d5c0f67db45c86f6e5eec23b94828b5" src="https://github.com/user-attachments/assets/e3a43f1d-e678-4aa0-b527-fbe1855dea32" />
 <img width="653" height="386" alt="d69e9deeb96ac23520316e7bcc0e938b" src="https://github.com/user-attachments/assets/b2a0dd7a-d1ef-4104-94ad-e32e0e7a7c93" />
