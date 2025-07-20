@@ -1,7 +1,19 @@
 计时器 
 * 跨平台 
 * 快捷键呼出 
-* 一键开始和停止 
+* 一键开始和停止
+* 不依赖鼠标
+
+stopwatch 
+* cross-platform
+* hotkey show and hide
+* one key to start or stop
+* mouse independent
+
+快捷键 hot key  
+ctrl+[: show up  
+escape: hide  
+enter: start or strop  
 
 <img width="623" height="307" alt="f5a638488be520cd7e6be08427ea97af" src="https://github.com/user-attachments/assets/41eba10c-5858-4f85-8ffb-4d965d09e06d" />
 <img width="641" height="350" alt="5d5c0f67db45c86f6e5eec23b94828b5" src="https://github.com/user-attachments/assets/e3a43f1d-e678-4aa0-b527-fbe1855dea32" />
