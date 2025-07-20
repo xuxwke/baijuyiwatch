@@ -115,6 +115,7 @@ class BjyInputBoxView extends GetView<InputBoxController> {
                                 child: Text(
                                   '停止',
                                   style: TextStyle(
+                                    fontSize: 18,
                                     color: defaultTheme.inputBoxButtonTextColor,
                                   ),
                                 ),
@@ -126,6 +127,7 @@ class BjyInputBoxView extends GetView<InputBoxController> {
                                 child: Text(
                                   '开始',
                                   style: TextStyle(
+                                    fontSize: 18,
                                     color: defaultTheme.inputBoxButtonTextColor,
                                   ),
                                 ),
@@ -133,8 +135,16 @@ class BjyInputBoxView extends GetView<InputBoxController> {
                       ),
                     if (controller.isTimerRunning.value)
                       Positioned(
+                        top: 20,
                         right: 100,
-                        child: Text('${controller.secondTime}s'),
+                        child: Text(
+                          '耗时 ${formatDuration(controller.secondTime.value)}    ',
+                          style: TextStyle(
+                            fontSize: 18,
+                            color: defaultTheme.historyItemTextColor,
+                            decoration: TextDecoration.none,
+                          ),
+                        ),
                       ),
                   ],
                 ),
