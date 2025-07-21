@@ -62,93 +62,91 @@ class BjyInputBoxView extends GetView<InputBoxController> {
               // developer.log('onKeyEvent node', name: node.toStringDeep());
               return KeyEventResult.ignored;
             },
-            child: Column(
-              children: [
-                // 输入框
-                Stack(
-                  children: [
-                    SizedBox(
-                      height: controller.inputSizeBoxHeight.value,
-                      child: Theme(
-                        data: ThemeData(
-                          textSelectionTheme: TextSelectionThemeData(),
-                        ),
-                        // child: Container(),
-                        child: Material(
-                          child: ExtendedTextField(
-                            style: TextStyle(
-                              fontSize: 28.0,
-                              color: defaultTheme.inputBoxTextColor,
-                            ),
-                            decoration: InputDecoration(
-                              contentPadding: const EdgeInsets.only(
-                                left: 8,
-                                right: 68,
-                                top: 4,
-                                bottom: 17,
-                              ),
-                              border: OutlineInputBorder(
-                                borderSide: BorderSide.none,
-                              ),
-                              filled: true,
-                              fillColor: defaultTheme.inputBoxBgColor,
-                              hoverColor: Colors.transparent,
-                            ),
-                            // 需要从 controller 获取 focusNode, 否则会有 backspace 无效问题
-                            // 该字段不设置也暂时没看出问题
-                            focusNode: controller.inputBoxFocusNode,
-                            controller: controller.inputBoxTextFieldController,
-                            enableIMEPersonalizedLearning: true,
+            child: Container(
+              color: defaultTheme.inputBoxBgColor,
+              child: Row(
+                textBaseline: TextBaseline.alphabetic,
+                children: [
+                  // 输入框
+                  SizedBox(
+                    width: 350,
+                    height: controller.inputSizeBoxHeight.value,
+                    child: Theme(
+                      data: ThemeData(
+                        textSelectionTheme: TextSelectionThemeData(),
+                      ),
+                      child: Material(
+                        child: ExtendedTextField(
+                          style: TextStyle(
+                            fontSize: 28.0,
+                            color: defaultTheme.inputBoxTextColor,
                           ),
+                          decoration: InputDecoration(
+                            contentPadding: const EdgeInsets.only(
+                              left: 8,
+                              right: 68,
+                              top: 4,
+                              bottom: 17,
+                            ),
+                            border: OutlineInputBorder(
+                              borderSide: BorderSide.none,
+                              borderRadius: BorderRadius.only(
+                                topLeft: Radius.circular(4), // 左上圆角
+                                bottomLeft: Radius.circular(4), // 左下圆角
+                                topRight: Radius.zero, // 右上直角
+                                bottomRight: Radius.zero, // 右下直角
+                              ),
+                            ),
+                            filled: true,
+                            fillColor: defaultTheme.inputBoxBgColor,
+                            hoverColor: Colors.transparent,
+                          ),
+                          // 需要从 controller 获取 focusNode, 否则会有 backspace 无效问题
+                          // 该字段不设置也暂时没看出问题
+                          focusNode: controller.inputBoxFocusNode,
+                          controller: controller.inputBoxTextFieldController,
+                          enableIMEPersonalizedLearning: true,
                         ),
                       ),
                     ),
-                    if (controller.inputBoxNotEmpty.value)
-                      Positioned(
-                        top: 12,
-                        right: 45,
-                        child: controller.isTimerRunning.value
-                            ? TextButton(
-                                onPressed: () {
-                                  controller.flopTimer();
-                                },
-                                child: Text(
-                                  '停止',
-                                  style: TextStyle(
-                                    fontSize: 18,
-                                    color: defaultTheme.inputBoxButtonTextColor,
-                                  ),
-                                ),
-                              )
-                            : TextButton(
-                                onPressed: () {
-                                  controller.flopTimer();
-                                },
-                                child: Text(
-                                  '开始',
-                                  style: TextStyle(
-                                    fontSize: 18,
-                                    color: defaultTheme.inputBoxButtonTextColor,
-                                  ),
-                                ),
+                  ),
+                  if (controller.isTimerRunning.value)
+                    Text(
+                      '${formatDuration(controller.secondTime.value)} ',
+                      style: TextStyle(
+                        fontSize: 18,
+                        color: defaultTheme.historyItemTextColor,
+                        decoration: TextDecoration.none,
+                      ),
+                    ),
+                  if (controller.inputBoxNotEmpty.value)
+                    controller.isTimerRunning.value
+                        ? TextButton(
+                            onPressed: () {
+                              controller.flopTimer();
+                            },
+                            child: Text(
+                              '停止',
+                              style: TextStyle(
+                                fontSize: 18,
+                                color: defaultTheme.inputBoxButtonTextColor,
                               ),
-                      ),
-                    if (controller.isTimerRunning.value)
-                      Positioned(
-                        top: 20,
-                        right: 100,
-                        child: Text(
-                          '耗时 ${formatDuration(controller.secondTime.value)}    ',
-                          style: TextStyle(
-                            fontSize: 18,
-                            color: defaultTheme.historyItemTextColor,
-                            decoration: TextDecoration.none,
+                            ),
+                          )
+                        : TextButton(
+                            onPressed: () {
+                              controller.flopTimer();
+                            },
+                            child: Text(
+                              '开始',
+                              style: TextStyle(
+                                fontSize: 18,
+                                color: defaultTheme.inputBoxButtonTextColor,
+                              ),
+                            ),
                           ),
-                        ),
-                      ),
-                  ],
-                ),
-              ],
+                ],
+              ),
             ),
           ),
         ],

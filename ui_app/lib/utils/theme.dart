@@ -2,13 +2,13 @@ import 'package:flutter/material.dart';
 
 String formatDuration(int seconds) {
   if (seconds < 60) {
-    return '${seconds.toString().padLeft(2, ' ')} ${"秒".toString().padLeft(2)}';
+    return '${seconds.toString().padLeft(2, ' ')} 秒';
   } else if (seconds < 3600) {
     int min = seconds ~/ 60;
-    return '${min.toString().padLeft(2, ' ')} ${"分".toString().padLeft(2)}';
+    return '${min.toString().padLeft(2, ' ')} 分';
   } else {
     int hour = seconds ~/ 3600;
-    return '${hour.toString().padLeft(2, ' ')} ${"时".toString().padLeft(2)}';
+    return '${hour.toString().padLeft(2, ' ')} 时';
   }
 }
 
