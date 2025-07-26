@@ -10,7 +10,6 @@ import 'package:hotkey_manager/hotkey_manager.dart';
 import 'package:bjy/models/timer_record.dart';
 import 'package:bjy/utils/windows/window_manager.dart';
 
-
 typedef KeyUpCallback = void Function();
 
 class InputBoxController extends GetxController {
@@ -103,7 +102,7 @@ class InputBoxController extends GetxController {
 
     // 设置初始窗口大小
     resizeWindow();
-    
+
     // 等待窗口准备好
     await windowManager.waitUntilReadyToShow();
     await windowManager.show();
@@ -183,6 +182,7 @@ class InputBoxController extends GetxController {
   resizeWindow() {
     debugPrint("resizeWindow");
     double h = inputSizeBoxHeight.value;
+    // h += 20;
     // 如果计时器正在运行，不考虑历史记录
     if (!isTimerRunning.value) {
       h += timeRecordList.length * timeRecordSizeBoxHeight.toDouble();

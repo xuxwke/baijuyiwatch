@@ -1,4 +1,3 @@
-import 'package:bjy/modules/launcher/history_view.dart';
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
@@ -6,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:bjy/controllers/input_box_controller.dart';
 import 'package:bjy/components/bjy_border_drag_move_view.dart';
 import 'package:bjy/modules/launcher/input_box_view.dart';
+import 'package:bjy/modules/launcher/history_view.dart';
 
 void main() async {
   // 套路: GetView Obx 中使用 controller 需要先注册
@@ -42,33 +42,30 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
-    return WoxBorderDragMoveArea(
-      borderWidth: 10.0,
-      onDragEnd: () {
-        // if (launcherController.isInSettingView.value) {
-        //   return;
-        // }
-
-        // launcherController.focusQueryBox();
-      },
-      child: const Column(
-        children: [
-          Expanded(
-            child: Padding(
-              padding: EdgeInsets.only(),
-              child: Column(
-                children: [
-                  BjyHistoryView(),
-                  BjyInputBoxView(),
-                  // Expanded(child: WoxQueryResultView()),
-                ],
+    return ClipRRect(
+      borderRadius: BorderRadius.circular(12), // 圆角半径
+      child: WoxBorderDragMoveArea(
+        borderWidth: 10.0,
+        onDragEnd: () {},
+        child: const Column(
+          children: [
+            Expanded(
+              child: Padding(
+                padding: EdgeInsets.only(),
+                child: Column(
+                  children: [
+                    BjyHistoryView(),
+                    BjyInputBoxView(),
+                    // Expanded(child: WoxQueryResultView()),
+                  ],
+                ),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
+        //     ? const WoxSettingView()
+        //     : const WoxLauncherView(),
       ),
-      //     ? const WoxSettingView()
-      //     : const WoxLauncherView(),
     );
   }
 }
