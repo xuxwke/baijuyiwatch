@@ -10,7 +10,7 @@ class AppDelegate: FlutterAppDelegate {
   private var windowEventChannel: FlutterMethodChannel?
 
   private func log(_ message: String) {
-    // NSLog("WoxApp: \(message)")
+    NSLog("MacApp: \(message)")
   }
 
   override func applicationShouldTerminateAfterLastWindowClosed(_ sender: NSApplication) -> Bool {

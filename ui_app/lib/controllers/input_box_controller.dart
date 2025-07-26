@@ -1,4 +1,4 @@
-import 'package:bjy/utils/windows/window_manager.dart';
+import 'dart:io' show Platform; // 只在非Web平台引入
 import 'package:flutter/widgets.dart';
 import 'package:flutter/services.dart';
 import 'dart:developer' as developer;
@@ -8,6 +8,8 @@ import 'package:stop_watch_timer/stop_watch_timer.dart';
 import 'package:hotkey_manager/hotkey_manager.dart';
 
 import 'package:bjy/models/timer_record.dart';
+import 'package:bjy/utils/windows/window_manager.dart';
+
 
 typedef KeyUpCallback = void Function();
 
@@ -56,9 +58,14 @@ class InputBoxController extends GetxController {
     // 全局热键的套路代码
     WidgetsFlutterBinding.ensureInitialized();
     // ctrl+[
+    var modfiers = [HotKeyModifier.control];
+    if (Platform.isMacOS) {
+      modfiers = [HotKeyModifier.meta];
+    }
+
     HotKey hotKey = HotKey(
       key: PhysicalKeyboardKey.bracketLeft,
-      modifiers: [HotKeyModifier.control],
+      modifiers: modfiers,
       scope: HotKeyScope.system,
     );
     await hotKeyManager.register(
@@ -96,6 +103,10 @@ class InputBoxController extends GetxController {
 
     // 设置初始窗口大小
     resizeWindow();
+    
+    // 等待窗口准备好
+    await windowManager.waitUntilReadyToShow();
+    await windowManager.show();
   }
 
   @override
